@@ -1,3 +1,0 @@
-[flake8]
-exclude = */migrations/*.py, settings.py
-max-complexity = 10
