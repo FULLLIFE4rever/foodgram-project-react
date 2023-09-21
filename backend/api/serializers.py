@@ -3,10 +3,10 @@ from djoser.serializers import UserCreateSerializer, UserSerializer
 from drf_base64.fields import Base64ImageField
 from rest_framework import serializers, status
 from rest_framework.validators import UniqueValidator
-from users.models import Follow
+
 from recipes.models import (Cart, Favorite, Ingredients, IngredientsRecipes,
                             Recipes, Tags)
-
+from users.models import Follow
 
 User = get_user_model()
 
