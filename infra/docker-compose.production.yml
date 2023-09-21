@@ -1,0 +1,31 @@
+version: '3'
+
+volumes:
+  db_data:
+  static:
+  media:
+
+services:
+  db:
+    image: postgres:13.10
+    volumes:
+      - db_data:/var/lib/postgres/data
+  backend:
+    image: fulllife4rever/foodgram_backend
+    volumes:
+      - static:/static/
+      - media:/app/media/
+    depends_on:
+      - db
+  frontend:
+    image: fulllife4rever/foodgram_backend
+    command: cp -r /app/build/. /static/
+    volumes:
+      - static:/static
+  gateway:
+    image: fulllife4rever/kittygram_gateway
+    ports:
+      - 7000:80
+    volumes:
+      - static:/static
+      - media:/app/media/
