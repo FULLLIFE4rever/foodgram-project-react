@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = getenv('SECRET_KEY', '1')
+SECRET_KEY = getenv('SECRET_KEY', '')
 
-DEBUG = getenv('DEBUG', True)
+DEBUG = getenv('DEBUG', False)
 
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,localhost:8000').split(',')
 
