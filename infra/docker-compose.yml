@@ -10,14 +10,14 @@ services:
     image: postgres:13.4
     volumes:
       - postgres:/var/lib/postgresql/data/
-    env_file:
-      - ./.env
+    env_file: .env
   frontend:
     build:
       context: ../frontend
       dockerfile: Dockerfile
+    command: cp -r /app/build/. /static/
     volumes:
-      - ../frontend/:/app/result_build/
+      - static:/static
   backend:
     build: ../backend/
     env_file: .env
