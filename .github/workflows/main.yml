@@ -131,7 +131,7 @@ jobs:
         script: |
           cd foodgram
           rm .env
-          cp /infra/docker-compose.production.yml .
+          cp infra/docker-compose.production.yml .
           echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env
           echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env
           echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env
@@ -140,7 +140,7 @@ jobs:
           echo "DB_NAME=foodgram" >> .env
           echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
           echo "DEBUG=False" >> .env
-          echo "ALLOWED_HOSTS=127.0.0.1,localhost,kittygram.gerastar.ru" >> .env
+          echo "ALLOWED_HOSTS=127.0.0.1,localhost,foodgram.fun-boom.ru" >> .env
           sudo docker compose -f docker-compose.production.yml pull
           sudo docker compose -f docker-compose.production.yml down
           sudo docker compose -f docker-compose.production.yml up -d
