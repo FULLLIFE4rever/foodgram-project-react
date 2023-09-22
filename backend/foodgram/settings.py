@@ -26,7 +26,7 @@ SECRET_KEY = getenv('SECRET_KEY', '1')
 
 DEBUG = getenv('DEBUG', True)
 
-ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,localhost:8000').split(',')
 
 
 # Application definition
