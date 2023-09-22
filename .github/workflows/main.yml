@@ -40,7 +40,7 @@ jobs:
         DEBUG: False
         SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
       run: |
-        python -m flake8 -ignore */migrations/*.py settings.py
+        python -m flake8 --ignore */migrations/*.py settings.py
 
 
   build_and_push_to_docker_hub:
