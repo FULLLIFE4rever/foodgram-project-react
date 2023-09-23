@@ -39,8 +39,7 @@ class Ingredients(models.Model):
                             max_length=100,
                             unique=True)
     measurement_unit = models.CharField(max_length=20,
-                                        verbose_name='Система СИ',
-                                        unique=True)
+                                        verbose_name='Система СИ')
 
     class Meta:
         ordering = ('measurement_unit',)
