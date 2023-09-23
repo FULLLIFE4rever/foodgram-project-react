@@ -22,8 +22,10 @@ class Tags(models.Model):
                                  )
                              ],
                              unique=True)
-    slug = models.CharField(verbose_name='Уникальное название',
-                            max_length=200)
+    slug = models.CharField(
+        verbose_name='Уникальное название',
+        max_length=200
+        )
 
     class Meta:
         ordering = ("id",)

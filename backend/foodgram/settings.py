@@ -28,7 +28,7 @@ DEBUG = getenv('DEBUG', False)
 
 ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,foodgram.fun-boom.ru').split(',')
 
-CSRF_TRUSTED_ORIGINS=['https://*.fun-boom.ru']
+CSRF_TRUSTED_ORIGINS = ['https://*.fun-boom.ru']
 
 # Application definition
 
