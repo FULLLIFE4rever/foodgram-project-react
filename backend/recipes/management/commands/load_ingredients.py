@@ -7,7 +7,7 @@ from recipes.models import Ingredients
 
 class Command(BaseCommand):
     help = 'Загрезка Ингредиентов'
-    CSV_DIR = '/data/'
+    CSV_DIR = '/app/data/'
     CSV_FILES = {'ingredients': Ingredients}
 
     def handle(self, *args, **options):
