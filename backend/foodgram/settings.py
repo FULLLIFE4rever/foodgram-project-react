@@ -26,7 +26,7 @@ SECRET_KEY = getenv('SECRET_KEY', '')
 
 DEBUG = getenv('DEBUG', False)
 
-ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,localhost:8000').split(',')
+ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,foodgram.fun-boom.ru').split(',')
 
 
 # Application definition
