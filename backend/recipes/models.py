@@ -36,8 +36,7 @@ class Ingredients(models.Model):
     """Модель ингридиентов"""
 
     name = models.TextField(verbose_name='Назвение ингридиента',
-                            max_length=100,
-                            unique=True)
+                            max_length=100)
     measurement_unit = models.CharField(max_length=20,
                                         verbose_name='Система СИ')
 
