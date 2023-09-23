@@ -23,6 +23,6 @@ class Follow(models.Model):
         constraints = (models.UniqueConstraint(
             fields=['user', 'following'], name="user-following"),
                        models.CheckConstraint(
-                check=~models.Q(user=models.F("following")),
-                name="self_subscription_prohibited",
-            ),)
+                           check=~models.Q(user=models.F("following")),
+                           name="self_subscription_prohibited",
+                           ),)
