@@ -53,20 +53,22 @@ class FollowViewSet(ModelViewSet):
     )
     def subscribe(self, request, pk):
         user = request.user
-        author = get_object_or_404(User, id=pk)
+        following = get_object_or_404(User, id=pk)
 
         serializer = FollowSerializer(
-            author, data=request.data, context={"request": request}
+            following, data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)
-        Follow.objects.create(user=user, author=author)
+        Follow.objects.create(user=user, following=following)
         return Response(serializer.data, status=HTTP_201_CREATED)
 
     @subscribe.mapping.delete
     def del_subscribe(self, request, pk):
         user = request.user
-        author = get_object_or_404(User, id=pk)
-        subscription = get_object_or_404(Follow, user=user, author=author)
+        following = get_object_or_404(User, id=pk)
+        subscription = get_object_or_404(
+            Follow, user=user, following=following
+        )
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
