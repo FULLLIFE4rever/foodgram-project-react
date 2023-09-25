@@ -9,7 +9,7 @@ class Command(BaseCommand):
     help = "Загрезка Ингредиентов"
     CSV_DIR = "/app/data/"
     CSV_FILES = {"ingredients": Ingredients,
-                 "tagss": Tags}
+                 "tags": Tags}
 
     def handle(self, *args, **options):
         self.run()
