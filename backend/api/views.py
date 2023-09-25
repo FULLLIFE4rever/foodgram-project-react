@@ -48,15 +48,16 @@ class FollowViewSet(ModelViewSet):
     pagination_class = None
     permission_classes = (IsAuthenticated,)
 
-    @action(detail=True, methods=['post'],
-            permission_classes=[IsAuthenticated])
+    @action(
+        detail=True, methods=["post"], permission_classes=[IsAuthenticated]
+    )
     def subscribe(self, request, id):
         user = request.user
         author = get_object_or_404(User, id=id)
 
-        serializer = FollowSerializer(author,
-                                      data=request.data,
-                                      context={"request": request})
+        serializer = FollowSerializer(
+            author, data=request.data, context={"request": request}
+        )
         serializer.is_valid(raise_exception=True)
         Follow.objects.create(user=user, author=author)
         return Response(serializer.data, status=HTTP_201_CREATED)
@@ -65,33 +66,30 @@ class FollowViewSet(ModelViewSet):
     def del_subscribe(self, request, id):
         user = request.user
         author = get_object_or_404(User, id=id)
-        subscription = get_object_or_404(Follow,
-                                         user=user,
-                                         author=author)
+        subscription = get_object_or_404(Follow, user=user, author=author)
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(
-        detail=False,
-        permission_classes=[IsAuthenticated]
-    )
+    @action(detail=False, permission_classes=[IsAuthenticated])
     def subscriptions(self, request):
         user = request.user
         queryset = User.objects.filter(subscribing__user=user)
         pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(pages,
-                                      many=True,
-                                      context={'request': request})
+        serializer = FollowSerializer(
+            pages, many=True, context={"request": request}
+        )
         return self.get_paginated_response(serializer.data)
 
 
 class RecipesViewSet(ModelViewSet):
     MODEL_TO_ADD_ERROR_MESSAGE = {
-        Cart: 'Товар уже добавлен в корзину!',
-        Favorite: 'Товар уже добавлен избранное!'}
+        Cart: "Товар уже добавлен в корзину!",
+        Favorite: "Товар уже добавлен избранное!",
+    }
     MODEL_TO_DELETE_ERROR_MESSAGE = {
-        Cart: 'Товара нет в вашей корзину!',
-        Favorite: 'Товара нет в вашем избранном!'}
+        Cart: "Товара нет в вашей корзину!",
+        Favorite: "Товара нет в вашем избранном!",
+    }
     queryset = Recipes.objects.all()
     filterset_class = RecipeFilter
     pagination_class = LimitMaxPageNumberPagination
@@ -104,31 +102,38 @@ class RecipesViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
     def get_serializer_class(self):
-        if self.action in ['list', 'retrieve']:
+        if self.action in ["list", "retrieve"]:
             return RecipesReadSerializer
         return RecipeWriteSerializer
 
-    @action(detail=False, methods=['get'],
-            permission_classes=(IsAuthenticated,))
+    @action(
+        detail=False, methods=["get"], permission_classes=(IsAuthenticated,)
+    )
     def download_shopping_cart(self, request):
-        shop_list = IngredientsRecipes.objects.filter(
-            recipe__cart__user=request.user).values(
-                name=F('ingredients__name'),
-                measurement_unit=F('ingredients__measurement_unit')
-        ).annotate(value=Sum('amount'))
+        shop_list = (
+            IngredientsRecipes.objects.filter(recipe__cart__user=request.user)
+            .values(
+                name=F("ingredients__name"),
+                measurement_unit=F("ingredients__measurement_unit"),
+            )
+            .annotate(value=Sum("amount"))
+        )
 
-        text = '\n'.join([
-            f"{item['name']} ({item['measurement_unit']}) - {item['value']}"
-            for item in shop_list
-        ])
+        text = "\n".join(
+            [
+                f"{i['name']} ({i['measurement_unit']}) - {i['value']}"
+                for i in shop_list
+            ]
+        )
 
-        filename = 'shopping_cart.txt'
-        response = HttpResponse(text, content_type='text/plain')
-        response['Content-Disposition'] = f'attachment; filename={filename}'
+        filename = "shopping_cart.txt"
+        response = HttpResponse(text, content_type="text/plain")
+        response["Content-Disposition"] = f"attachment; filename={filename}"
         return response
 
-    @action(detail=True, methods=['post'],
-            permission_classes=(IsAuthenticated,))
+    @action(
+        detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
+    )
     def shopping_cart(self, request, pk):
         return self.add_to_model(Cart, request.user, pk)
 
@@ -136,8 +141,9 @@ class RecipesViewSet(ModelViewSet):
     def del_shopping_cart(self, request, pk):
         return self.delete_from_model(Cart, request.user, pk)
 
-    @action(detail=True, methods=['post'],
-            permission_classes=(IsAuthenticated,))
+    @action(
+        detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
+    )
     def favorite(self, request, pk):
         return self.add_to_model(Favorite, request.user, pk)
 
@@ -149,8 +155,10 @@ class RecipesViewSet(ModelViewSet):
         model_obj = model.objects
         recipe = get_object_or_404(Recipes, id=id)
         if model_obj.filter(user=user, recipe=recipe).exists():
-            return Response({'error': self.MODEL_TO_ADD_ERROR_MESSAGE[model]},
-                            status=HTTP_400_BAD_REQUEST)
+            return Response(
+                {"error": self.MODEL_TO_ADD_ERROR_MESSAGE[model]},
+                status=HTTP_400_BAD_REQUEST,
+            )
         model_obj.create(user=user, recipe=recipe)
         serializer = RecipesAddSerializer(recipe)
         return Response(serializer.data, status=HTTP_201_CREATED)
@@ -160,8 +168,9 @@ class RecipesViewSet(ModelViewSet):
         recipe = get_object_or_404(Recipes, id=id)
         if not model_obj.filter(user=user, recipe=recipe).exists():
             return Response(
-                {'error': self.MODEL_TO_DELETE_ERROR_MESSAGE[model]},
-                status=HTTP_400_BAD_REQUEST)
+                {"error": self.MODEL_TO_DELETE_ERROR_MESSAGE[model]},
+                status=HTTP_400_BAD_REQUEST,
+            )
         model_obj.filter(user=user, recipe=recipe).delete()
         serializer = RecipesAddSerializer(recipe)
         return Response(serializer.data, status=HTTP_204_NO_CONTENT)

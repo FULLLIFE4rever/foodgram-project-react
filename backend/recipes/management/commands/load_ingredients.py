@@ -6,9 +6,9 @@ from recipes.models import Ingredients
 
 
 class Command(BaseCommand):
-    help = 'Загрезка Ингредиентов'
-    CSV_DIR = '/app/data/'
-    CSV_FILES = {'ingredients': Ingredients}
+    help = "Загрезка Ингредиентов"
+    CSV_DIR = "/app/data/"
+    CSV_FILES = {"ingredients": Ingredients}
 
     def handle(self, *args, **options):
         self.run()
@@ -20,9 +20,9 @@ class Command(BaseCommand):
         count = 1
         for file, models in self.CSV_FILES.items():
             model = models
-            with open(self.CSV_DIR + file + '.csv',
-                      encoding='utf8',
-                      newline='') as csvfile:
+            with open(
+                self.CSV_DIR + file + ".csv", encoding="utf8", newline=""
+            ) as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     row["id"] = count

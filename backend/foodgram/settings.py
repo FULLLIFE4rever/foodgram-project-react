@@ -22,13 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = getenv('SECRET_KEY', '')
+SECRET_KEY = getenv("SECRET_KEY", "")
 
-DEBUG = getenv('DEBUG', False)
+DEBUG = getenv("DEBUG", False)
 
-ALLOWED_HOSTS = getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,foodgram.fun-boom.ru').split(',')
+ALLOWED_HOSTS = getenv(
+    "ALLOWED_HOSTS", "localhost,127.0.0.1,foodgram.fun-boom.ru"
+).split(",")
 
-CSRF_TRUSTED_ORIGINS = ['https://*.fun-boom.ru']
+CSRF_TRUSTED_ORIGINS = ["https://*.fun-boom.ru"]
 
 # Application definition
 
@@ -63,7 +65,7 @@ ROOT_URLCONF = "foodgram.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [ospath.join(BASE_DIR, 'templates')],
+        "DIRS": [ospath.join(BASE_DIR, "templates")],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -83,13 +85,13 @@ WSGI_APPLICATION = "foodgram.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': getenv('POSTGRES_DB', 'django'),
-        'USER': getenv('POSTGRES_USER', 'django'),
-        'PASSWORD': getenv('POSTGRES_PASSWORD', 'django'),
-        'HOST': getenv('DB_HOST', ''),
-        'PORT': getenv('DB_PORT', 5432)
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": getenv("POSTGRES_DB", "django"),
+        "USER": getenv("POSTGRES_USER", "django"),
+        "PASSWORD": getenv("POSTGRES_PASSWORD", "django"),
+        "HOST": getenv("DB_HOST", ""),
+        "PORT": getenv("DB_PORT", 5432),
     }
 }
 
@@ -138,11 +140,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'collected_static'
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "collected_static"
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = ospath.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = ospath.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -152,12 +154,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DJOSER = {
     "LOGIN_FIELD": "email",
-    'SERIALIZERS': {'user_create': 'api.serializers.UserCreateSerializer',
-                    'user': 'api.serializers.UserSerializer',
-                    'current_user': 'api.serializers.UserSerializer'},
-    'PERMISSIONS': {
-        'user': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
-        'user_list': ('rest_framework.permissions.IsAuthenticatedOrReadOnly',),
+    "SERIALIZERS": {
+        "user_create": "api.serializers.UserCreateSerializer",
+        "user": "api.serializers.UserSerializer",
+        "current_user": "api.serializers.UserSerializer",
     },
-    'HIDE_USERS': False,
+    "PERMISSIONS": {
+        "user": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
+        "user_list": ("rest_framework.permissions.IsAuthenticatedOrReadOnly",),
+    },
+    "HIDE_USERS": False,
 }

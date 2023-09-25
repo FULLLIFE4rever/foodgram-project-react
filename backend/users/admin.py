@@ -11,16 +11,14 @@ admin.site.unregister(User)
 
 @admin.register(User)
 class UserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'password', 'first_name', 'last_name')
-    search_fields = ('username', 'email')
-    list_filter = ('username', 'email')
-    list_editable = ('email',
-                     'first_name',
-                     'last_name')
+    list_display = ("username", "email", "password", "first_name", "last_name")
+    search_fields = ("username", "email")
+    list_filter = ("username", "email")
+    list_editable = ("email", "first_name", "last_name")
 
 
 @admin.register(Follow)
 class FollowAdmin(admin.ModelAdmin):
-    list_display = ('user', 'following')
-    search_fields = ('user', 'following')
-    list_filter = ('user', 'following')
+    list_display = ("user", "following")
+    search_fields = ("user", "following")
+    list_filter = ("user", "following")
