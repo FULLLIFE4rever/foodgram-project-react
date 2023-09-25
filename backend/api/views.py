@@ -51,9 +51,9 @@ class FollowViewSet(ModelViewSet):
     @action(
         detail=True, methods=["post"], permission_classes=[IsAuthenticated]
     )
-    def subscribe(self, request, id):
+    def subscribe(self, request, pk):
         user = request.user
-        author = get_object_or_404(User, id=id)
+        author = get_object_or_404(User, id=pk)
 
         serializer = FollowSerializer(
             author, data=request.data, context={"request": request}
@@ -63,9 +63,9 @@ class FollowViewSet(ModelViewSet):
         return Response(serializer.data, status=HTTP_201_CREATED)
 
     @subscribe.mapping.delete
-    def del_subscribe(self, request, id):
+    def del_subscribe(self, request, pk):
         user = request.user
-        author = get_object_or_404(User, id=id)
+        author = get_object_or_404(User, id=pk)
         subscription = get_object_or_404(Follow, user=user, author=author)
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
