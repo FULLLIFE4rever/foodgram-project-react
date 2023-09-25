@@ -41,6 +41,9 @@ class Command(BaseCommand):
                 {'name': 'Ужин',
                  'color': '#FCC000',
                  'slug': 'dinner'})
+        count = 1
         for tag in tags:
-            obj = Tags(tag)
+            tag['id'] = count
+            obj = Tags(**tag)
             obj.save()
+            count += 1
