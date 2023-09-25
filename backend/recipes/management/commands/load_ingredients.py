@@ -8,18 +8,18 @@ from recipes.models import Ingredients, Tags
 class Command(BaseCommand):
     help = "Загрезка Ингредиентов"
     CSV_DIR = "/app/data/"
-    CSV_FILES = {"ingredients": Ingredients}
+    CSV_FILES = {"ingredients": Ingredients,
+                 "tagss": Tags}
 
     def handle(self, *args, **options):
         self.run()
 
     def run(self):
         self.load_data()
-        self.load_tags()
 
     def load_data(self):
-        count = 1
         for file, models in self.CSV_FILES.items():
+            count = 1
             model = models
             with open(
                 self.CSV_DIR + file + ".csv", encoding="utf8", newline=""
@@ -30,20 +30,3 @@ class Command(BaseCommand):
                     obj = model(**row)
                     obj.save()
                     count += 1
-
-    def load_tags(self):
-        tags = ({'name': 'Завтрак',
-                 'color': '#CF001F',
-                 'slug': 'breakfast'},
-                {'name': 'Обед',
-                 'color': '#00C01F',
-                 'slug': 'launch'},
-                {'name': 'Ужин',
-                 'color': '#FCC000',
-                 'slug': 'dinner'})
-        count = 1
-        for tag in tags:
-            tag['id'] = count
-            obj = Tags(**tag)
-            obj.save()
-            count += 1
