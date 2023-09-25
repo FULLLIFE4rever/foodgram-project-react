@@ -2,7 +2,7 @@ import csv
 
 from django.core.management.base import BaseCommand
 
-from recipes.models import Ingredients
+from recipes.models import Ingredients, Tags
 
 
 class Command(BaseCommand):
@@ -15,6 +15,7 @@ class Command(BaseCommand):
 
     def run(self):
         self.load_data()
+        self.load_tags()
 
     def load_data(self):
         count = 1
@@ -29,3 +30,17 @@ class Command(BaseCommand):
                     obj = model(**row)
                     obj.save()
                     count += 1
+
+    def load_tags(self):
+        tags = ({'name': 'Завтрак',
+                 'color': '#CF001F',
+                 'slug': 'breakfast'},
+                {'name': 'Обед',
+                 'color': '#00C01F',
+                 'slug': 'launch'},
+                {'name': 'Ужин',
+                 'color': '#FCC000',
+                 'slug': 'dinner'})
+        for tag in tags:
+            obj = Tags(tag)
+            obj.save()
