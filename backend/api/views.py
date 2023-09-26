@@ -8,7 +8,7 @@ from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
 from rest_framework.response import Response
 from rest_framework.status import (HTTP_201_CREATED, HTTP_204_NO_CONTENT,
-                                   HTTP_400_BAD_REQUEST, HTTP_200_OK)
+                                   HTTP_400_BAD_REQUEST)
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
 from recipes.models import (Cart, Favorite, Ingredients, IngredientsRecipes,
@@ -82,8 +82,6 @@ class FollowViewSet(ModelViewSet):
         )
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
-
-
 
 
 class RecipesViewSet(ModelViewSet):
