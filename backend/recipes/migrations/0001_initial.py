@@ -154,7 +154,9 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "name",
-                    models.TextField(max_length=200, verbose_name="Название рецепта"),
+                    models.TextField(
+                        max_length=200, verbose_name="Название рецепта"
+                    ),
                 ),
                 ("text", models.TextField(verbose_name="Рецепт")),
                 (

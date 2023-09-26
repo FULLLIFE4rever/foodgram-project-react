@@ -87,7 +87,9 @@ class IngredientRecipesSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField(source="ingredients.id")
     name = serializers.ReadOnlyField(source="ingredients.name")
-    measurement_unit = serializers.ReadOnlyField(source="ingredients.measurement_unit")
+    measurement_unit = serializers.ReadOnlyField(
+        source="ingredients.measurement_unit"
+    )
 
     class Meta:
         fields = ("id", "name", "amount", "measurement_unit")
@@ -151,7 +153,9 @@ class RecipesReadSerializer(ImageSerializer):
 class RecipeWriteSerializer(ImageSerializer):
     """Сериализатор для записи рецептов"""
 
-    tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tags.objects.all())
+    tags = serializers.PrimaryKeyRelatedField(
+        many=True, queryset=Tags.objects.all()
+    )
     ingredients = AddIngredientSerializer(many=True)
 
     class Meta:
@@ -219,9 +223,13 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         recipe = obj["recipe"]
         cart = user.list.filter(recipe=recipe).exists()
         if self.context.get("request").method == "POST" and cart:
-            raise serializers.ValidationError("Этот рецепт уже в списке покупок.")
+            raise serializers.ValidationError(
+                "Этот рецепт уже в списке покупок."
+            )
         if self.context.get("request").method == "DELETE" and not cart:
-            raise serializers.ValidationError("Этот рецепт ещё не в списке покупок.")
+            raise serializers.ValidationError(
+                "Этот рецепт ещё не в списке покупок."
+            )
         return obj
 
 
@@ -290,7 +298,9 @@ class FollowCheckSerializer(serializers.ModelSerializer):
     def validate(self, data):
         following = self.instance
         user = self.context.get("request").user
-        check_follow = Follow.objects.filter(following=following, user=user).exists()
+        check_follow = Follow.objects.filter(
+            following=following, user=user
+        ).exists()
         method = self.context.get("request").method
         if user == following:
             raise serializers.ValidationError(
@@ -326,7 +336,11 @@ class FavoriteSerializer(serializers.ModelSerializer):
         recipe = obj["recipe"]
         favorite = user.list.filter(recipe=recipe).exists()
         if self.context.get("request").method == "POST" and favorite:
-            raise serializers.ValidationError("Этот рецепт уже в списке избранного.")
+            raise serializers.ValidationError(
+                "Этот рецепт уже в списке избранного."
+            )
         if self.context.get("request").method == "DELETE" and not favorite:
-            raise serializers.ValidationError("Этот рецепт ещё не в списке избранного.")
+            raise serializers.ValidationError(
+                "Этот рецепт ещё не в списке избранного."
+            )
         return obj

@@ -5,7 +5,9 @@ User = get_user_model()
 
 
 class Follow(models.Model):
-    user = models.ForeignKey(User, related_name="follower", on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        User, related_name="follower", on_delete=models.CASCADE
+    )
     following = models.ForeignKey(
         User,
         related_name="following",

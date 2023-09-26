@@ -49,15 +49,21 @@ class FollowViewSet(UserViewSet):
     serializer_class = FollowSerializer
     permission_classes = (IsAuthenticated,)
 
-    @action(detail=False, methods=("get",), permission_classes=(IsAuthenticated,))
+    @action(
+        detail=False, methods=("get",), permission_classes=(IsAuthenticated,)
+    )
     def subscriptions(self, request):
         user = request.user
         queryset = user.follower.all()
         pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(pages, many=True, context={"request": request})
+        serializer = FollowSerializer(
+            pages, many=True, context={"request": request}
+        )
         return self.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=["post"], permission_classes=(IsAuthenticated,))
+    @action(
+        detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
+    )
     def subscribe(self, request, pk):
         user = request.user
         following = get_object_or_404(User, id=pk)
@@ -73,7 +79,9 @@ class FollowViewSet(UserViewSet):
     def del_subscribe(self, request, pk):
         user = request.user
         following = get_object_or_404(User, id=pk)
-        subscription = get_object_or_404(Follow, user=user, following=following)
+        subscription = get_object_or_404(
+            Follow, user=user, following=following
+        )
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -103,7 +111,9 @@ class RecipesViewSet(ModelViewSet):
             return RecipesReadSerializer
         return RecipeWriteSerializer
 
-    @action(detail=False, methods=["get"], permission_classes=(IsAuthenticated,))
+    @action(
+        detail=False, methods=["get"], permission_classes=(IsAuthenticated,)
+    )
     def download_shopping_cart(self, request):
         shop_list = (
             IngredientsRecipes.objects.filter(recipe__cart__user=request.user)
@@ -115,7 +125,10 @@ class RecipesViewSet(ModelViewSet):
         )
 
         text = "\n".join(
-            [f"{i['name']} ({i['measurement_unit']}) - {i['value']}" for i in shop_list]
+            [
+                f"{i['name']} ({i['measurement_unit']}) - {i['value']}"
+                for i in shop_list
+            ]
         )
 
         filename = "shopping_cart.txt"
@@ -123,7 +136,9 @@ class RecipesViewSet(ModelViewSet):
         response["Content-Disposition"] = f"attachment; filename={filename}"
         return response
 
-    @action(detail=True, methods=["post"], permission_classes=(IsAuthenticated,))
+    @action(
+        detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
+    )
     def shopping_cart(self, request, pk):
         return self.add_to_model(Cart, request.user, pk)
 
@@ -131,7 +146,9 @@ class RecipesViewSet(ModelViewSet):
     def del_shopping_cart(self, request, pk):
         return self.delete_from_model(Cart, request.user, pk)
 
-    @action(detail=True, methods=["post"], permission_classes=(IsAuthenticated,))
+    @action(
+        detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
+    )
     def favorite(self, request, pk):
         return self.add_to_model(Favorite, request.user, pk)
 
