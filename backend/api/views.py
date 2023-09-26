@@ -20,7 +20,8 @@ from .paginations import LimitMaxPageNumberPagination
 from .permissions import IsAuthorOrAdmin
 from .serializers import (FollowSerializer, IngredientSerializer,
                           RecipesAddSerializer, RecipesReadSerializer,
-                          RecipeWriteSerializer, TagSerializer)
+                          RecipeWriteSerializer, TagSerializer,
+                          FollowCheckSerializer)
 
 User = get_user_model()
 
@@ -55,7 +56,7 @@ class FollowViewSet(ModelViewSet):
         user = request.user
         following = get_object_or_404(User, id=pk)
 
-        serializer = FollowSerializer(
+        serializer = FollowCheckSerializer(
             following, data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)

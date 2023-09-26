@@ -269,6 +269,32 @@ class FollowSerializer(serializers.ModelSerializer):
             "recipes_count",
         )
 
+    def get_is_subscribed(self, obj):
+        user = self.context.get("request").user
+        if user.is_anonymous:
+            return False
+        return user.follower.filter(following=obj.id).exists()
+
+    def get_recipe(self, obj):
+        """Получение рецептов автора."""
+        request = self.context.get("request")
+        limit = request.GET.get("recipes_limit")
+        queryset = obj.recipes.all()
+        if limit:
+            queryset = queryset[: int(limit)]
+        return RecipeFollowSerializer(queryset, many=True).data
+
+    def get_recipes_count(self, obj):
+        return obj.recipes.all().count()
+
+
+class FollowCheckSerializer(serializers.ModelSerializer):
+    """Сериализация объектов типа Follow. Подписки."""
+
+    class Meta:
+        model = Follow
+        fields = ('user', 'following')
+
     def validate(self, data):
         following = self.instance
         user = self.context.get("request").user
@@ -292,24 +318,6 @@ class FollowSerializer(serializers.ModelSerializer):
                 code=status.HTTP_400_BAD_REQUEST,
             )
         return data
-
-    def get_is_subscribed(self, obj):
-        user = self.context.get("request").user
-        if user.is_anonymous:
-            return False
-        return user.follower.filter(following=obj.id).exists()
-
-    def get_recipe(self, obj):
-        """Получение рецептов автора."""
-        request = self.context.get("request")
-        limit = request.GET.get("recipes_limit")
-        queryset = obj.recipes.all()
-        if limit:
-            queryset = queryset[: int(limit)]
-        return RecipeFollowSerializer(queryset, many=True).data
-
-    def get_recipes_count(self, obj):
-        return obj.recipes.all().count()
 
 
 class FavoriteSerializer(serializers.ModelSerializer):
