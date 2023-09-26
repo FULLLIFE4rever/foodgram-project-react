@@ -81,6 +81,7 @@ class FollowViewSet(ModelViewSet):
         serializer = FollowSerializer(
             pages, many=True, context={"request": request}
         )
+        print(serializer)
         return Response(status=HTTP_200_OK)
 
 
