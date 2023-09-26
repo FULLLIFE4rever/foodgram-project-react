@@ -87,9 +87,7 @@ class IngredientRecipesSerializer(serializers.ModelSerializer):
 
     id = serializers.ReadOnlyField(source="ingredients.id")
     name = serializers.ReadOnlyField(source="ingredients.name")
-    measurement_unit = serializers.ReadOnlyField(
-        source="ingredients.measurement_unit"
-    )
+    measurement_unit = serializers.ReadOnlyField(source="ingredients.measurement_unit")
 
     class Meta:
         fields = ("id", "name", "amount", "measurement_unit")
@@ -153,9 +151,7 @@ class RecipesReadSerializer(ImageSerializer):
 class RecipeWriteSerializer(ImageSerializer):
     """Сериализатор для записи рецептов"""
 
-    tags = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Tags.objects.all()
-    )
+    tags = serializers.PrimaryKeyRelatedField(many=True, queryset=Tags.objects.all())
     ingredients = AddIngredientSerializer(many=True)
 
     class Meta:
@@ -223,13 +219,9 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
         recipe = obj["recipe"]
         cart = user.list.filter(recipe=recipe).exists()
         if self.context.get("request").method == "POST" and cart:
-            raise serializers.ValidationError(
-                "Этот рецепт уже в списке покупок."
-            )
+            raise serializers.ValidationError("Этот рецепт уже в списке покупок.")
         if self.context.get("request").method == "DELETE" and not cart:
-            raise serializers.ValidationError(
-                "Этот рецепт ещё не в списке покупок."
-            )
+            raise serializers.ValidationError("Этот рецепт ещё не в списке покупок.")
         return obj
 
 
@@ -279,13 +271,13 @@ class FollowSerializer(serializers.ModelSerializer):
         """Получение рецептов автора."""
         request = self.context.get("request")
         limit = request.GET.get("recipes_limit")
-        queryset = obj.recipes.all()
+        queryset = obj.following.recipes.all()
         if limit:
             queryset = queryset[: int(limit)]
         return RecipeFollowSerializer(queryset, many=True).data
 
     def get_recipes_count(self, obj):
-        return obj.recipes.all().count()
+        return obj.following.recipes.all().count()
 
 
 class FollowCheckSerializer(serializers.ModelSerializer):
@@ -293,14 +285,12 @@ class FollowCheckSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Follow
-        fields = ('user', 'following')
+        fields = ("user", "following")
 
     def validate(self, data):
         following = self.instance
         user = self.context.get("request").user
-        check_follow = Follow.objects.filter(
-            following=following, user=user
-        ).exists()
+        check_follow = Follow.objects.filter(following=following, user=user).exists()
         method = self.context.get("request").method
         if user == following:
             raise serializers.ValidationError(
@@ -336,11 +326,7 @@ class FavoriteSerializer(serializers.ModelSerializer):
         recipe = obj["recipe"]
         favorite = user.list.filter(recipe=recipe).exists()
         if self.context.get("request").method == "POST" and favorite:
-            raise serializers.ValidationError(
-                "Этот рецепт уже в списке избранного."
-            )
+            raise serializers.ValidationError("Этот рецепт уже в списке избранного.")
         if self.context.get("request").method == "DELETE" and not favorite:
-            raise serializers.ValidationError(
-                "Этот рецепт ещё не в списке избранного."
-            )
+            raise serializers.ValidationError("Этот рецепт ещё не в списке избранного.")
         return obj

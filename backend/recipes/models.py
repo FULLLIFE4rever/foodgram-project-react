@@ -9,9 +9,7 @@ User = get_user_model()
 class Tags(models.Model):
     """Модель тегов"""
 
-    name = models.TextField(
-        verbose_name="Назвение тега", max_length=200, unique=True
-    )
+    name = models.TextField(verbose_name="Назвение тега", max_length=200, unique=True)
     color = models.CharField(
         max_length=7,
         verbose_name="Цвет тега в HEX",
@@ -35,12 +33,8 @@ class Tags(models.Model):
 class Ingredients(models.Model):
     """Модель ингридиентов"""
 
-    name = models.TextField(
-        verbose_name="Назвение ингридиента", max_length=100
-    )
-    measurement_unit = models.CharField(
-        max_length=20, verbose_name="Система СИ"
-    )
+    name = models.TextField(verbose_name="Назвение ингридиента", max_length=100)
+    measurement_unit = models.CharField(max_length=20, verbose_name="Система СИ")
 
     class Meta:
         ordering = ("measurement_unit",)
@@ -137,9 +131,7 @@ class Favorite(models.Model):
     )
 
     class Meta:
-        constraints = (
-            UniqueConstraint(fields=["user", "recipe"], name="user-recipe"),
-        )
+        constraints = (UniqueConstraint(fields=["user", "recipe"], name="user-recipe"),)
 
 
 class Cart(models.Model):
@@ -161,6 +153,4 @@ class Cart(models.Model):
     )
 
     class Meta:
-        constraints = (
-            UniqueConstraint(fields=["user", "recipe"], name="user-cart"),
-        )
+        constraints = (UniqueConstraint(fields=["user", "recipe"], name="user-cart"),)

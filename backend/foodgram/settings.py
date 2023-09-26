@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = getenv("SECRET_KEY", "")
+SECRET_KEY = getenv("SECRET_KEY", "12212121212")
 
-DEBUG = getenv("DEBUG", False)
+DEBUG = getenv("DEBUG", True)
 
 ALLOWED_HOSTS = getenv(
     "ALLOWED_HOSTS", "localhost,127.0.0.1,foodgram.fun-boom.ru"
@@ -86,6 +86,13 @@ WSGI_APPLICATION = "foodgram.wsgi.application"
 
 DATABASES = {
     "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
+
+"""DATABASES = {
+    "default": {
         "ENGINE": "django.db.backends.postgresql",
         "NAME": getenv("POSTGRES_DB", "django"),
         "USER": getenv("POSTGRES_USER", "django"),
@@ -93,7 +100,7 @@ DATABASES = {
         "HOST": getenv("DB_HOST", ""),
         "PORT": getenv("DB_PORT", 5432),
     }
-}
+}"""
 
 
 # Password validation
