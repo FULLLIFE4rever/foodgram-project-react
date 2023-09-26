@@ -49,6 +49,16 @@ class FollowViewSet(ModelViewSet):
     pagination_class = None
     permission_classes = (IsAuthenticated,)
 
+    @action(detail=False, permission_classes=[IsAuthenticated])
+    def subscriptions(self, request):
+        user = request.user
+        queryset = user.follower.all()
+        pages = self.paginate_queryset(queryset)
+        serializer = FollowSerializer(
+            pages, many=True, context={"request": request}
+        )
+        return self.get_paginated_response(serializer.data)
+
     @action(
         detail=True, methods=["post"], permission_classes=[IsAuthenticated]
     )
@@ -73,17 +83,7 @@ class FollowViewSet(ModelViewSet):
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
 
-    @action(detail=False, permission_classes=[IsAuthenticated])
-    def subscriptions(self, request):
-        user = request.user
-        queryset = user.follower.all()
-        print(queryset)
-        return Response(status=HTTP_200_OK)
-        # pages = self.paginate_queryset(queryset)
-        # serializer = FollowSerializer(
-        #    pages, many=True, context={"request": request}
-        # )
-        # return self.get_paginated_response(serializer.data)
+
 
 
 class RecipesViewSet(ModelViewSet):
