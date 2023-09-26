@@ -43,6 +43,10 @@ class TagViewSet(ListRetrieveViewSet):
 
 
 class FollowViewSet(ModelViewSet):
+    queryset = Follow.objects.all()
+    serializer_class = FollowSerializer
+    pagination_class = None
+    permission_classes = (IsAuthenticated,)
 
     @action(
         detail=True, methods=["post"], permission_classes=[IsAuthenticated]
