@@ -77,8 +77,9 @@ class FollowViewSet(ModelViewSet):
     def subscriptions(self, request):
         user = request.user
         queryset = user.follower.all()
-        pages = self.paginate_queryset(queryset)
-        return Response(pages, status=HTTP_200_OK)
+        print(queryset)
+        return Response(status=HTTP_200_OK)
+        # pages = self.paginate_queryset(queryset)
         # serializer = FollowSerializer(
         #    pages, many=True, context={"request": request}
         # )
