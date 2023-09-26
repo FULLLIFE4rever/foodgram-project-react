@@ -20,8 +20,7 @@ from .paginations import LimitMaxPageNumberPagination
 from .permissions import IsAuthorOrAdmin
 from .serializers import (FollowSerializer, IngredientSerializer,
                           RecipesAddSerializer, RecipesReadSerializer,
-                          RecipeWriteSerializer, TagSerializer,
-                          FollowCheckSerializer)
+                          RecipeWriteSerializer, TagSerializer, FollowCheckSerializer)
 
 User = get_user_model()
 
@@ -78,11 +77,11 @@ class FollowViewSet(ModelViewSet):
         user = request.user
         queryset = user.follower.all()
         pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(
-            pages, many=True, context={"request": request}
-        )
-        print(serializer)
-        return Response(status=HTTP_200_OK)
+        return Response(pages, status=HTTP_200_OK)
+        # serializer = FollowSerializer(
+        #    pages, many=True, context={"request": request}
+        # )
+        # return self.get_paginated_response(serializer.data)
 
 
 class RecipesViewSet(ModelViewSet):
