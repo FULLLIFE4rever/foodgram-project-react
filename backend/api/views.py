@@ -81,12 +81,7 @@ class FollowViewSet(ModelViewSet):
         serializer = FollowSerializer(
             pages, many=True, context={"request": request}
         )
-        return Response(serializer.data,
-                        pages,
-                        serializer,
-                        queryset,
-                        pages,
-                        status=HTTP_200_OK)
+        return Response(status=HTTP_200_OK)
 
 
 class RecipesViewSet(ModelViewSet):
