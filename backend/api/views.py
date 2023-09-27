@@ -15,13 +15,13 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from recipes.models import (Cart, Favorite, Ingredients, IngredientsRecipes,
                             Recipes, Tags)
 from users.models import Follow
+
 from .filters import IngredientsFilter, RecipeFilter
 from .paginations import LimitMaxPageNumberPagination
 from .permissions import IsAuthorOrAdmin
-from .serializers import (FollowCheckSerializer, FollowSerializer,
-                          IngredientSerializer, RecipesAddSerializer,
-                          RecipesReadSerializer, RecipeWriteSerializer,
-                          TagSerializer)
+from .serializers import (FollowSerializer, IngredientSerializer,
+                          RecipesAddSerializer, RecipesReadSerializer,
+                          RecipeWriteSerializer, TagSerializer)
 
 User = get_user_model()
 
@@ -50,7 +50,7 @@ class FollowViewSet(UserViewSet):
     def subscribe(self, request, id):
         user = request.user
         following = get_object_or_404(User, id=id)
-        serializer = FollowCheckSerializer(
+        serializer = FollowSerializer(
             following, data=request.data, context={"request": request}
         )
         serializer.is_valid(raise_exception=True)

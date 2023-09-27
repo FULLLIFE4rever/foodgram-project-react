@@ -12,14 +12,10 @@ router = routers.DefaultRouter()
 router.register("ingredients", IngredientViewSet, basename="ingredients")
 router.register("tags", TagViewSet)
 router.register("recipes", RecipesViewSet)
-# router.register("users", FollowViewSet, basename="users")
-
-router_user = routers.DefaultRouter()
-router_user.register("users", FollowViewSet, basename="users")
+router.register("users", FollowViewSet, basename="users")
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("", include(router_user.urls)),
     path("auth/", include("djoser.urls.authtoken")),
     path("admin/", admin.site.urls),
 ]
