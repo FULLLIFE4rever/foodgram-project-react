@@ -138,7 +138,7 @@ jobs:
           echo "DB_HOST=db" >> .env
           echo "DB_PORT=5432" >> .env
           echo "DB_NAME=foodgram" >> .env
-          echo "SECRET_KEY=${{ secrets.SECRET_KEY }}" >> .env
+          echo "SECRET_KEY=${{ secrets.DJANGO_SECRET_KEY }}" >> .env
           echo "DEBUG=${{ secrets.DEBUG }}" >> .env
           echo "ALLOWED_HOSTS=127.0.0.1,localhost,foodgram.fun-boom.ru" >> .env
           sudo docker compose -f docker-compose.yml pull
