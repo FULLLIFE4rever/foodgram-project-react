@@ -44,29 +44,12 @@ class TagViewSet(ListRetrieveViewSet):
 
 
 class FollowViewSet(UserViewSet):
-    queryset = Follow.objects.all()
-    serializer_class = FollowSerializer
-    permission_classes = (IsAuthenticated,)
-
-    @action(
-        detail=False, methods=("get",), permission_classes=(IsAuthenticated,)
-    )
-    def subscriptions(self, request):
-        user = request.user
-        queryset = user.follower.all()
-        pages = self.paginate_queryset(queryset)
-        serializer = FollowSerializer(
-            pages, many=True, context={"request": request}
-        )
-        return self.get_paginated_response(serializer.data)
-
     @action(
         detail=True, methods=["post"], permission_classes=(IsAuthenticated,)
     )
     def subscribe(self, request, pk):
         user = request.user
         following = get_object_or_404(User, id=pk)
-
         serializer = FollowCheckSerializer(
             following, data=request.data, context={"request": request}
         )
@@ -83,6 +66,18 @@ class FollowViewSet(UserViewSet):
         )
         subscription.delete()
         return Response(status=HTTP_204_NO_CONTENT)
+
+    @action(
+        detail=False, methods=("get",), permission_classes=(IsAuthenticated,)
+    )
+    def subscriptions(self, request):
+        user = request.user
+        queryset = user.follower.all()
+        pages = self.paginate_queryset(queryset)
+        serializer = FollowSerializer(
+            pages, many=True, context={"request": request}
+        )
+        return self.get_paginated_response(serializer.data)
 
 
 class RecipesViewSet(ModelViewSet):
