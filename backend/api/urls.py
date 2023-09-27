@@ -3,7 +3,6 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from djoser import urls
 
 from .views import FollowViewSet, IngredientViewSet, RecipesViewSet, TagViewSet
 
@@ -15,11 +14,13 @@ router.register("tags", TagViewSet)
 router.register("recipes", RecipesViewSet)
 # router.register("users", FollowViewSet)
 
-urls.register("users", FollowViewSet)
+router_user = routers.DefaultRouter()
+router_user.register("users", FollowViewSet) 
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("", include(urls)),
+    path("", include("djoser.urls")),
+    path("", include(router_user.urls)), 
     path("auth/", include("djoser.urls.authtoken")),
     path("admin/", admin.site.urls),
 ]
