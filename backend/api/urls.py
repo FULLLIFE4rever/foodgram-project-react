@@ -15,12 +15,12 @@ router.register("recipes", RecipesViewSet)
 # router.register("users", FollowViewSet)
 
 router_user = routers.DefaultRouter()
-router_user.register("users", FollowViewSet) 
+router_user.register("users", FollowViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
     path("", include("djoser.urls")),
-    path("", include(router_user.urls)), 
+    path("", include(router_user.urls)),
     path("auth/", include("djoser.urls.authtoken")),
     path("admin/", admin.site.urls),
 ]
