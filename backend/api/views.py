@@ -15,7 +15,6 @@ from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 from recipes.models import (Cart, Favorite, Ingredients, IngredientsRecipes,
                             Recipes, Tags)
 from users.models import Follow
-
 from .filters import IngredientsFilter, RecipeFilter
 from .paginations import LimitMaxPageNumberPagination
 from .permissions import IsAuthorOrAdmin
