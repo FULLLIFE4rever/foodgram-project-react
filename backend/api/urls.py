@@ -15,7 +15,7 @@ router.register("tags", TagViewSet)
 router.register("recipes", RecipesViewSet)
 # router.register("users", FollowViewSet)
 
-urls.register("users", FollowViewSet) 
+urls.register("users", FollowViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
