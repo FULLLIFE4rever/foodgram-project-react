@@ -50,17 +50,17 @@ class FollowViewSet(UserViewSet):
     )
     def subscribe(self, request, id):
         user = request.user
-        author = get_object_or_404(User, pk=id)
+        following = get_object_or_404(User, pk=id)
         data = {
             "user": user.id,
-            "author": author.id,
+            "following": following.id,
         }
         serializer = FollowCheckSerializer(
             data=data,
             context={"request": request},
         )
         serializer.is_valid(raise_exception=True)
-        result = Follow.objects.create(user=user, author=author)
+        result = Follow.objects.create(user=user, following=following)
         serializer = FollowSerializer(result, context={"request": request})
         return Response(serializer.data, status=HTTP_201_CREATED)
 
