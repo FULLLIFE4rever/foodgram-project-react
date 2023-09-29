@@ -10,7 +10,7 @@ services:
     image: postgres:13.10
     env_file: .env
     volumes:
-      - db_data:/var/lib/postgres/data
+      - db_data:/var/lib/postgresql/data
   backend:
     image: fulllife4rever/foodgram_backend
     env_file: .env
