@@ -107,7 +107,7 @@ sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_stat
 
 Для работы с GitHub Actions необходимо в репозитории в разделе Secrets > Actions создать переменные окружения:
 '''
-DJANGO_SECRET_KEY       # секретный ключ Django проекта
+SECRET_KEY       # секретный ключ Django проекта
 DOCKER_PASSWORD         # пароль от Docker Hub
 DOCKER_USERNAME         # логин Docker Hub
 HOST                    # публичный IP сервера
