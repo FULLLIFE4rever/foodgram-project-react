@@ -128,7 +128,7 @@ class RecipesReadSerializer(ImageSerializer):
             "author",
             "ingredients",
             "is_favorited",
-            "is_in_shoping_cart",
+            "is_in_shopping_cart",
             "name",
             "image",
             "text",
@@ -143,7 +143,7 @@ class RecipesReadSerializer(ImageSerializer):
             return False
         return request.user.favorite.filter(recipe=obj).exists()
 
-    def get_is_in_shoping_cart(self, obj):
+    def get_is_in_shopping_cart(self, obj):
         request = self.context.get("request")
         if not request or request.user.is_anonymous:
             return False
