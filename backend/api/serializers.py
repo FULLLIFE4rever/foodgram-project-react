@@ -114,7 +114,7 @@ class RecipesReadSerializer(ImageSerializer):
     """Сериализатор рецептов"""
 
     is_favorited = serializers.SerializerMethodField()
-    is_in_shoping_cart = serializers.SerializerMethodField()
+    is_in_shopping_cart = serializers.SerializerMethodField()
     tags = TagSerializer(many=True)
     ingredients = IngredientRecipesSerializer(
         many=True, read_only=True, source="ingredient"
