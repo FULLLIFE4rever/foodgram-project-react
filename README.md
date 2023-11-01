@@ -63,12 +63,12 @@
 
 ### Как запустить в ручном режиме
 Скачать файл на сервер 
-'''
+```
 https://github.com/FULLLIFE4rever/foodgram-project-react/blob/master/infra/docker-compose.yml
-'''
+```
 
 Создать файл .env в папке с этим фалом
-'''
+```
 POSTGRES_USER={{ Пользователь БД }}
 POSTGRES_PASSWORD={{ Пароль пользователя БД }}
 POSTGRES_DB={{ Имя базы данных }}
@@ -78,35 +78,35 @@ DB_NAME={{ Имя БД }}
 SECRET_KEY={{ Серетный ключ Django }}
 DEBUG={{ Нужен ли DEBUG в Django }}
 ALLOWED_HOSTS={{ Разрешенные имена для Django }}
-'''
+```
 
 Запустить
-'''
+```
 sudo docker compose up -d
-'''
+```
 
 Выполнить миграции
-'''
+```
 sudo docker compose -f docker-compose.yml exec backend python manage.py migrate
-'''
+```
 
 Запустить заполнение БД ингредиентами и тегами
-'''
+```
 sudo docker compose -f docker-compose.yml exec backend python manage.py load_ingredients
-'''
+```
 
 Запустить сбор статики для NGINX
-'''
+```
 sudo docker compose -f docker-compose.yml exec backend python manage.py collectstatic
 sudo docker compose -f docker-compose.yml exec backend cp -r /app/collected_static/. /static/static/
-'''
+```
 
 ### Как запустить в автоматическом режиме
 
 Скопируйте проект к себе git
 
 Для работы с GitHub Actions необходимо в репозитории в разделе Secrets > Actions создать переменные окружения:
-'''
+```
 SECRET_KEY       # секретный ключ Django проекта
 DOCKER_PASSWORD         # пароль от Docker Hub
 DOCKER_USERNAME         # логин Docker Hub
@@ -123,7 +123,7 @@ POSTGRES_PASSWORD       # Postgres пароль
 POSTGRES_DB             # Postgres имя БД
 DB_HOST                 # db
 DB_PORT                 # 5432 (порт по умолчанию)
-'''
+```
 
 # Примеры запросов
 
